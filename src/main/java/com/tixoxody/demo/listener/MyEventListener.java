@@ -1,7 +1,6 @@
 package com.tixoxody.demo.listener;
 
-import com.tixoxody.demo.service.HtmlLoaderService;
-import com.tixoxody.demo.service.MetaTagService;
+import com.tixoxody.demo.service.*;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,6 +17,15 @@ public class MyEventListener {
     @Autowired
     private MetaTagService metaTagService;
 
+    @Autowired
+    private ParagraphService paragraphService;
+
+    @Autowired
+    private HeaderService headerService;
+
+    @Autowired
+    private ContentLenghtService contentLenghtService;
+
     @EventListener(ApplicationReadyEvent.class)
     public void ApplicationStart(){
         System.out.println("Start");
@@ -27,11 +35,15 @@ public class MyEventListener {
             String html = htmlDocument.html();
             //System.out.println(html);
 
-            System.out.println("Title: ");
-            System.out.println(metaTagService.getTitle(htmlDocument));
+            System.out.println("Title: " + metaTagService.getTitle(htmlDocument));
 
-            System.out.println("Content: ");
-            System.out.println(metaTagService.getDescription(htmlDocument));
+            System.out.println("Content: " + metaTagService.getDescription(htmlDocument));
+
+            System.out.println("Paragraph count = " + paragraphService.getCountParagraph(html));
+
+            System.out.println("Headers = " + headerService.getH(html));
+
+            System.out.println("Content lenght = " + contentLenghtService.getContentLenght(html));
         } catch (IOException e) {
             e.printStackTrace();
         }
